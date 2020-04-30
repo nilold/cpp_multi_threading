@@ -22,17 +22,17 @@ void FindPrime(unsigned start, unsigned end) {
     }
 }
 
-void FindPrimesWithThreads(unsigned start, unsigned end, unsigned numThreads){
+void FindPrimesWithThreads(unsigned start, unsigned end, unsigned numThreads) {
     std::vector<std::thread> threadVector;
     unsigned threadSpread = end / numThreads;
     unsigned newEnd = start + threadSpread - 1;
-    for(unsigned x=0; x< numThreads; x++){
+    for (unsigned x = 0; x < numThreads; x++) {
         threadVector.emplace_back(FindPrime, start, newEnd);
         start += threadSpread;
         newEnd += threadSpread;
     }
 
-    for(auto& t : threadVector){
+    for (auto &t : threadVector) {
         t.join();
     }
 }
@@ -40,14 +40,14 @@ void FindPrimesWithThreads(unsigned start, unsigned end, unsigned numThreads){
 
 int main() {
     int startTime = clock();
-    FindPrimesWithThreads(1, 200000, 1);
+    FindPrimesWithThreads(1, 200000, 5);
     int endTime = clock();
 
-    for(auto i: primeVector)
+    for (auto i: primeVector)
         std::cout << i << ",";
     std::cout << "\b\n";
 
-    std::cout << "execution time = " << (endTime - startTime)/double(CLOCKS_PER_SEC) << std::endl;
+    std::cout << "execution time = " << (endTime - startTime) / double(CLOCKS_PER_SEC) << std::endl;
 
 
     return 0;
